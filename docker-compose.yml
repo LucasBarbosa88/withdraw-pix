@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: withdraw_pix_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/opt/www
+    ports:
+      - "9501:9501"
+    environment:
+      - APP_ENV=dev
+      - SCAN_CACHEABLE=false
+    depends_on:
+      - mysql
+      - mailhog
+
+  mysql:
+    image: mysql:8.0
+    platform: linux/amd64
+    container_name: withdraw_pix_mysql
+    environment:
+      MYSQL_DATABASE: withdraw_pix
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3308:3308"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: withdraw_pix_mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+volumes:
+  mysql_data:
+
+networks:
+  default:
+    name: withdraw_pix
