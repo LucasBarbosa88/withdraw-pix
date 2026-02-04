@@ -8,6 +8,9 @@ class AccountWithdraw extends Model
 {
   protected ?string $table = 'account_withdraw';
 
+  public bool $incrementing = false;
+  protected string $keyType = 'string';
+
   protected array $fillable = [
     'id',
     'account_id',
@@ -21,4 +24,9 @@ class AccountWithdraw extends Model
   ];
 
   public bool $timestamps = false;
+
+  public function pix(): \Hyperf\Database\Model\Relations\HasOne
+  {
+      return $this->hasOne(AccountWithdrawPix::class, 'account_withdraw_id', 'id');
+  }
 }

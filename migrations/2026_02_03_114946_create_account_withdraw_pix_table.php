@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('account_withdraw_pix', function (Blueprint $table) {
             $table->uuid('account_withdraw_id')->primary();
             $table->string('type', 20);
-            $table->string('pix_key', 255);
+            $table->string('key', 255);
 
             $table->foreign('account_withdraw_id')
                 ->references('id')
