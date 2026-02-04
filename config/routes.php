@@ -16,3 +16,6 @@ Router::addRoute(['GET', 'POST', 'HEAD'], '/', 'App\Controller\IndexController@i
 Router::get('/favicon.ico', function () {
     return '';
 });
+
+// API Routes
+Router::post('/account/{accountId}/balance/withdraw', 'App\Controller\WithdrawController@store');
