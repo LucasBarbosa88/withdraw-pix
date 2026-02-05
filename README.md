@@ -11,11 +11,14 @@ Serviço de saque via PIX implementado com Hyperf Framework, Docker e MySQL.
 
 ## 🛠 Como Rodar
 
-1. **Subir os containers:**
+1. **Build e Instalação:**
    ```bash
+   # Build das imagens
+   docker-compose build
+
+   # Subir os containers
    docker-compose up -d
    ```
-
 2. **Rodar as migrations:**
    ```bash
    docker-compose exec app php bin/hyperf.php migrate
