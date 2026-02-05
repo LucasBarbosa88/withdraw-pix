@@ -45,20 +45,21 @@ class WithdrawService
 
       $withdrawId = (string) Str::uuid();
       $withdraw = $this->repository->create([
-        'id'            => $withdrawId,
-        'account_id'    => $accountId,
-        'amount'        => $amount,
-        'method'        => $method,
-        'scheduled'     => $isScheduled,
+        'id' => $withdrawId,
+        'account_id' => $accountId,
+        'amount' => $amount,
+        'method' => $method,
+        'scheduled' => $isScheduled,
         'scheduled_for' => $isScheduled ? date('Y-m-d H:i:s', strtotime($schedule)) : null,
-        'done'          => false,
-        'error'         => false,
+        'done' => !$isScheduled,
+        'error' => false,
+        'processed_at' => !$isScheduled ? date('Y-m-d H:i:s') : null,
       ]);
 
       $this->repository->createPix([
         'account_withdraw_id' => $withdrawId,
-        'type'                => $pixType,
-        'key'                 => $pixKey,
+        'type' => $pixType,
+        'key' => $pixKey,
       ]);
 
       if (!$isScheduled) {
@@ -69,9 +70,9 @@ class WithdrawService
       }
 
       return [
-        'id'            => $withdraw->id,
-        'status'        => $isScheduled ? 'SCHEDULED' : 'PENDING',
-        'amount'        => $withdraw->amount,
+        'id' => $withdraw->id,
+        'status' => $isScheduled ? 'SCHEDULED' : 'COMPLETED',
+        'amount' => $withdraw->amount,
         'scheduled_for' => $withdraw->scheduled_for,
       ];
     });
